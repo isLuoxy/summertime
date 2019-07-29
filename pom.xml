@@ -5,7 +5,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>summertime-server</module>
-        <module>sumertime-common</module>
+        <module>summertime-client</module>
+        <module>summertime-common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -46,6 +47,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.8.0</version>
         </dependency>
     </dependencies>
 

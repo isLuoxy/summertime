@@ -15,6 +15,5 @@ public class STServerApplication {
     public static void main(String[] args){
         SpringApplication.run(STServerApplication.class,args);
 
-
     }
 }
