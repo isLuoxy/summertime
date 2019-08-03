@@ -1,3 +1,18 @@
 st:
   server:
     port: 8000
+    zookeeper:
+      path: /st/server/
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    
+zookeeper:
+  server: 39.105.196.17:2181
+  sessionTimeoutMs: 6000
+  connectionTimeoutMs: 6000
+  maxRetries: 3
+  baseSleepTimeMs: 1000
+  
+

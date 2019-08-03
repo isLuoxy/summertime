@@ -34,19 +34,19 @@ public final class Chat {
   static {
     java.lang.String[] descriptorData = {
       "\n$com/l99/summertime/common/chat.proto\022\"" +
-      "com.l99.summertime.common.protocol\"\216\001\n\tS" +
+      "com.l99.summertime.common.protocol\"\260\001\n\tS" +
       "TReqBody\022\014\n\004time\030\001 \001(\003\0228\n\004type\030\002 \001(\0162*.c" +
       "om.l99.summertime.common.protocol.STType" +
-      "\022\014\n\004text\030\003 \001(\t\022\r\n\005group\030\004 \001(\t\022\014\n\004toId\030\005 " +
-      "\001(\005\022\016\n\006toNick\030\006 \001(\t\"\261\001\n\nSTRespBody\022\014\n\004ti" +
-      "me\030\001 \001(\003\0228\n\004type\030\002 \001(\0162*.com.l99.summert" +
-      "ime.common.protocol.STType\022\014\n\004text\030\003 \001(\t" +
-      "\022\016\n\006fromId\030\004 \001(\005\022\020\n\010fromNick\030\005 \001(\t\022\014\n\004to" +
-      "Id\030\006 \001(\005\022\016\n\006toNick\030\007 \001(\t\022\r\n\005group\030\010 \001(\t*" +
-      "K\n\006STType\022\024\n\020CHAT_TYPE_UNKNOW\020\000\022\024\n\020CHAT_" +
-      "TYPE_PUBLIC\020\001\022\025\n\021CHAT_TYPE_PRIVATE\020\002B&\n\"" +
-      "com.l99.summertime.common.protocolP\001b\006pr" +
-      "oto3"
+      "\022\014\n\004text\030\003 \001(\t\022\016\n\006fromId\030\004 \001(\005\022\020\n\010fromNi" +
+      "ck\030\005 \001(\t\022\014\n\004toId\030\006 \001(\005\022\016\n\006toNick\030\007 \001(\t\022\r" +
+      "\n\005group\030\010 \001(\t\"\223\001\n\nSTRespBody\022\014\n\004time\030\001 \001" +
+      "(\003\0228\n\004type\030\002 \001(\0162*.com.l99.summertime.co" +
+      "mmon.protocol.STType\022\014\n\004text\030\003 \001(\t\022\r\n\005gr" +
+      "oup\030\004 \001(\t\022\016\n\006fromId\030\005 \001(\005\022\020\n\010fromNick\030\006 " +
+      "\001(\t*a\n\006STType\022\025\n\021CHAT_TYPE_UNKNOWN\020\000\022\023\n\017" +
+      "CHAT_TYPE_LOGIN\020\001\022\024\n\020CHAT_TYPE_PUBLIC\020\002\022" +
+      "\025\n\021CHAT_TYPE_PRIVATE\020\003B&\n\"com.l99.summer" +
+      "time.common.protocolP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -57,13 +57,13 @@ public final class Chat {
     internal_static_com_l99_summertime_common_protocol_STReqBody_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_l99_summertime_common_protocol_STReqBody_descriptor,
-        new java.lang.String[] { "Time", "Type", "Text", "Group", "ToId", "ToNick", });
+        new java.lang.String[] { "Time", "Type", "Text", "FromId", "FromNick", "ToId", "ToNick", "Group", });
     internal_static_com_l99_summertime_common_protocol_STRespBody_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_l99_summertime_common_protocol_STRespBody_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_l99_summertime_common_protocol_STRespBody_descriptor,
-        new java.lang.String[] { "Time", "Type", "Text", "FromId", "FromNick", "ToId", "ToNick", "Group", });
+        new java.lang.String[] { "Time", "Type", "Text", "Group", "FromId", "FromNick", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

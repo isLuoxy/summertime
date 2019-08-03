@@ -23,8 +23,9 @@ private static final long serialVersionUID = 0L;
   private STReqBody() {
     type_ = 0;
     text_ = "";
-    group_ = "";
+    fromNick_ = "";
     toNick_ = "";
+    group_ = "";
   }
 
   @java.lang.Override
@@ -74,21 +75,32 @@ private static final long serialVersionUID = 0L;
             text_ = s;
             break;
           }
-          case 34: {
-            java.lang.String s = input.readStringRequireUtf8();
+          case 32: {
 
-            group_ = s;
+            fromId_ = input.readInt32();
             break;
           }
-          case 40: {
+          case 42: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            fromNick_ = s;
+            break;
+          }
+          case 48: {
 
             toId_ = input.readInt32();
             break;
           }
-          case 50: {
+          case 58: {
             java.lang.String s = input.readStringRequireUtf8();
 
             toNick_ = s;
+            break;
+          }
+          case 66: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            group_ = s;
             break;
           }
           default: {
@@ -203,69 +215,82 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int GROUP_FIELD_NUMBER = 4;
-  private volatile java.lang.Object group_;
+  public static final int FROMID_FIELD_NUMBER = 4;
+  private int fromId_;
   /**
    * <pre>
-   *目标组id
+   *发送聊天消息的用户id
    * </pre>
    *
-   * <code>string group = 4;</code>
+   * <code>int32 fromId = 4;</code>
    */
-  public java.lang.String getGroup() {
-    java.lang.Object ref = group_;
+  public int getFromId() {
+    return fromId_;
+  }
+
+  public static final int FROMNICK_FIELD_NUMBER = 5;
+  private volatile java.lang.Object fromNick_;
+  /**
+   * <pre>
+   *发送聊天消息的用户nick
+   * </pre>
+   *
+   * <code>string fromNick = 5;</code>
+   */
+  public java.lang.String getFromNick() {
+    java.lang.Object ref = fromNick_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      group_ = s;
+      fromNick_ = s;
       return s;
     }
   }
   /**
    * <pre>
-   *目标组id
+   *发送聊天消息的用户nick
    * </pre>
    *
-   * <code>string group = 4;</code>
+   * <code>string fromNick = 5;</code>
    */
   public com.google.protobuf.ByteString
-      getGroupBytes() {
-    java.lang.Object ref = group_;
+      getFromNickBytes() {
+    java.lang.Object ref = fromNick_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      group_ = b;
+      fromNick_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
   }
 
-  public static final int TOID_FIELD_NUMBER = 5;
+  public static final int TOID_FIELD_NUMBER = 6;
   private int toId_;
   /**
    * <pre>
-   *目标用户id，
+   *目标用户id
    * </pre>
    *
-   * <code>int32 toId = 5;</code>
+   * <code>int32 toId = 6;</code>
    */
   public int getToId() {
     return toId_;
   }
 
-  public static final int TONICK_FIELD_NUMBER = 6;
+  public static final int TONICK_FIELD_NUMBER = 7;
   private volatile java.lang.Object toNick_;
   /**
    * <pre>
    *目标用户nick
    * </pre>
    *
-   * <code>string toNick = 6;</code>
+   * <code>string toNick = 7;</code>
    */
   public java.lang.String getToNick() {
     java.lang.Object ref = toNick_;
@@ -284,7 +309,7 @@ private static final long serialVersionUID = 0L;
    *目标用户nick
    * </pre>
    *
-   * <code>string toNick = 6;</code>
+   * <code>string toNick = 7;</code>
    */
   public com.google.protobuf.ByteString
       getToNickBytes() {
@@ -294,6 +319,48 @@ private static final long serialVersionUID = 0L;
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
       toNick_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int GROUP_FIELD_NUMBER = 8;
+  private volatile java.lang.Object group_;
+  /**
+   * <pre>
+   *目标组id
+   * </pre>
+   *
+   * <code>string group = 8;</code>
+   */
+  public java.lang.String getGroup() {
+    java.lang.Object ref = group_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      group_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   *目标组id
+   * </pre>
+   *
+   * <code>string group = 8;</code>
+   */
+  public com.google.protobuf.ByteString
+      getGroupBytes() {
+    java.lang.Object ref = group_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      group_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -317,20 +384,26 @@ private static final long serialVersionUID = 0L;
     if (time_ != 0L) {
       output.writeInt64(1, time_);
     }
-    if (type_ != com.l99.summertime.common.protocol.STType.CHAT_TYPE_UNKNOW.getNumber()) {
+    if (type_ != com.l99.summertime.common.protocol.STType.CHAT_TYPE_UNKNOWN.getNumber()) {
       output.writeEnum(2, type_);
     }
     if (!getTextBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, text_);
     }
-    if (!getGroupBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, group_);
+    if (fromId_ != 0) {
+      output.writeInt32(4, fromId_);
+    }
+    if (!getFromNickBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, fromNick_);
     }
     if (toId_ != 0) {
-      output.writeInt32(5, toId_);
+      output.writeInt32(6, toId_);
     }
     if (!getToNickBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 6, toNick_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 7, toNick_);
+    }
+    if (!getGroupBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 8, group_);
     }
     unknownFields.writeTo(output);
   }
@@ -345,22 +418,29 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(1, time_);
     }
-    if (type_ != com.l99.summertime.common.protocol.STType.CHAT_TYPE_UNKNOW.getNumber()) {
+    if (type_ != com.l99.summertime.common.protocol.STType.CHAT_TYPE_UNKNOWN.getNumber()) {
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(2, type_);
     }
     if (!getTextBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, text_);
     }
-    if (!getGroupBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, group_);
+    if (fromId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(4, fromId_);
+    }
+    if (!getFromNickBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, fromNick_);
     }
     if (toId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(5, toId_);
+        .computeInt32Size(6, toId_);
     }
     if (!getToNickBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, toNick_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, toNick_);
+    }
+    if (!getGroupBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, group_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -382,12 +462,16 @@ private static final long serialVersionUID = 0L;
     if (type_ != other.type_) return false;
     if (!getText()
         .equals(other.getText())) return false;
-    if (!getGroup()
-        .equals(other.getGroup())) return false;
+    if (getFromId()
+        != other.getFromId()) return false;
+    if (!getFromNick()
+        .equals(other.getFromNick())) return false;
     if (getToId()
         != other.getToId()) return false;
     if (!getToNick()
         .equals(other.getToNick())) return false;
+    if (!getGroup()
+        .equals(other.getGroup())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -406,12 +490,16 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + type_;
     hash = (37 * hash) + TEXT_FIELD_NUMBER;
     hash = (53 * hash) + getText().hashCode();
-    hash = (37 * hash) + GROUP_FIELD_NUMBER;
-    hash = (53 * hash) + getGroup().hashCode();
+    hash = (37 * hash) + FROMID_FIELD_NUMBER;
+    hash = (53 * hash) + getFromId();
+    hash = (37 * hash) + FROMNICK_FIELD_NUMBER;
+    hash = (53 * hash) + getFromNick().hashCode();
     hash = (37 * hash) + TOID_FIELD_NUMBER;
     hash = (53 * hash) + getToId();
     hash = (37 * hash) + TONICK_FIELD_NUMBER;
     hash = (53 * hash) + getToNick().hashCode();
+    hash = (37 * hash) + GROUP_FIELD_NUMBER;
+    hash = (53 * hash) + getGroup().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -556,11 +644,15 @@ private static final long serialVersionUID = 0L;
 
       text_ = "";
 
-      group_ = "";
+      fromId_ = 0;
+
+      fromNick_ = "";
 
       toId_ = 0;
 
       toNick_ = "";
+
+      group_ = "";
 
       return this;
     }
@@ -591,9 +683,11 @@ private static final long serialVersionUID = 0L;
       result.time_ = time_;
       result.type_ = type_;
       result.text_ = text_;
-      result.group_ = group_;
+      result.fromId_ = fromId_;
+      result.fromNick_ = fromNick_;
       result.toId_ = toId_;
       result.toNick_ = toNick_;
+      result.group_ = group_;
       onBuilt();
       return result;
     }
@@ -652,8 +746,11 @@ private static final long serialVersionUID = 0L;
         text_ = other.text_;
         onChanged();
       }
-      if (!other.getGroup().isEmpty()) {
-        group_ = other.group_;
+      if (other.getFromId() != 0) {
+        setFromId(other.getFromId());
+      }
+      if (!other.getFromNick().isEmpty()) {
+        fromNick_ = other.fromNick_;
         onChanged();
       }
       if (other.getToId() != 0) {
@@ -661,6 +758,10 @@ private static final long serialVersionUID = 0L;
       }
       if (!other.getToNick().isEmpty()) {
         toNick_ = other.toNick_;
+        onChanged();
+      }
+      if (!other.getGroup().isEmpty()) {
+        group_ = other.group_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -884,21 +985,59 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object group_ = "";
+    private int fromId_ ;
     /**
      * <pre>
-     *目标组id
+     *发送聊天消息的用户id
      * </pre>
      *
-     * <code>string group = 4;</code>
+     * <code>int32 fromId = 4;</code>
      */
-    public java.lang.String getGroup() {
-      java.lang.Object ref = group_;
+    public int getFromId() {
+      return fromId_;
+    }
+    /**
+     * <pre>
+     *发送聊天消息的用户id
+     * </pre>
+     *
+     * <code>int32 fromId = 4;</code>
+     */
+    public Builder setFromId(int value) {
+      
+      fromId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *发送聊天消息的用户id
+     * </pre>
+     *
+     * <code>int32 fromId = 4;</code>
+     */
+    public Builder clearFromId() {
+      
+      fromId_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object fromNick_ = "";
+    /**
+     * <pre>
+     *发送聊天消息的用户nick
+     * </pre>
+     *
+     * <code>string fromNick = 5;</code>
+     */
+    public java.lang.String getFromNick() {
+      java.lang.Object ref = fromNick_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        group_ = s;
+        fromNick_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
@@ -906,19 +1045,19 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     *目标组id
+     *发送聊天消息的用户nick
      * </pre>
      *
-     * <code>string group = 4;</code>
+     * <code>string fromNick = 5;</code>
      */
     public com.google.protobuf.ByteString
-        getGroupBytes() {
-      java.lang.Object ref = group_;
+        getFromNickBytes() {
+      java.lang.Object ref = fromNick_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        group_ = b;
+        fromNick_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -926,49 +1065,49 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     *目标组id
+     *发送聊天消息的用户nick
      * </pre>
      *
-     * <code>string group = 4;</code>
+     * <code>string fromNick = 5;</code>
      */
-    public Builder setGroup(
+    public Builder setFromNick(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      group_ = value;
+      fromNick_ = value;
       onChanged();
       return this;
     }
     /**
      * <pre>
-     *目标组id
+     *发送聊天消息的用户nick
      * </pre>
      *
-     * <code>string group = 4;</code>
+     * <code>string fromNick = 5;</code>
      */
-    public Builder clearGroup() {
+    public Builder clearFromNick() {
       
-      group_ = getDefaultInstance().getGroup();
+      fromNick_ = getDefaultInstance().getFromNick();
       onChanged();
       return this;
     }
     /**
      * <pre>
-     *目标组id
+     *发送聊天消息的用户nick
      * </pre>
      *
-     * <code>string group = 4;</code>
+     * <code>string fromNick = 5;</code>
      */
-    public Builder setGroupBytes(
+    public Builder setFromNickBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      group_ = value;
+      fromNick_ = value;
       onChanged();
       return this;
     }
@@ -976,20 +1115,20 @@ private static final long serialVersionUID = 0L;
     private int toId_ ;
     /**
      * <pre>
-     *目标用户id，
+     *目标用户id
      * </pre>
      *
-     * <code>int32 toId = 5;</code>
+     * <code>int32 toId = 6;</code>
      */
     public int getToId() {
       return toId_;
     }
     /**
      * <pre>
-     *目标用户id，
+     *目标用户id
      * </pre>
      *
-     * <code>int32 toId = 5;</code>
+     * <code>int32 toId = 6;</code>
      */
     public Builder setToId(int value) {
       
@@ -999,10 +1138,10 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     *目标用户id，
+     *目标用户id
      * </pre>
      *
-     * <code>int32 toId = 5;</code>
+     * <code>int32 toId = 6;</code>
      */
     public Builder clearToId() {
       
@@ -1017,7 +1156,7 @@ private static final long serialVersionUID = 0L;
      *目标用户nick
      * </pre>
      *
-     * <code>string toNick = 6;</code>
+     * <code>string toNick = 7;</code>
      */
     public java.lang.String getToNick() {
       java.lang.Object ref = toNick_;
@@ -1036,7 +1175,7 @@ private static final long serialVersionUID = 0L;
      *目标用户nick
      * </pre>
      *
-     * <code>string toNick = 6;</code>
+     * <code>string toNick = 7;</code>
      */
     public com.google.protobuf.ByteString
         getToNickBytes() {
@@ -1056,7 +1195,7 @@ private static final long serialVersionUID = 0L;
      *目标用户nick
      * </pre>
      *
-     * <code>string toNick = 6;</code>
+     * <code>string toNick = 7;</code>
      */
     public Builder setToNick(
         java.lang.String value) {
@@ -1073,7 +1212,7 @@ private static final long serialVersionUID = 0L;
      *目标用户nick
      * </pre>
      *
-     * <code>string toNick = 6;</code>
+     * <code>string toNick = 7;</code>
      */
     public Builder clearToNick() {
       
@@ -1086,7 +1225,7 @@ private static final long serialVersionUID = 0L;
      *目标用户nick
      * </pre>
      *
-     * <code>string toNick = 6;</code>
+     * <code>string toNick = 7;</code>
      */
     public Builder setToNickBytes(
         com.google.protobuf.ByteString value) {
@@ -1096,6 +1235,95 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       toNick_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object group_ = "";
+    /**
+     * <pre>
+     *目标组id
+     * </pre>
+     *
+     * <code>string group = 8;</code>
+     */
+    public java.lang.String getGroup() {
+      java.lang.Object ref = group_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        group_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     *目标组id
+     * </pre>
+     *
+     * <code>string group = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getGroupBytes() {
+      java.lang.Object ref = group_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        group_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     *目标组id
+     * </pre>
+     *
+     * <code>string group = 8;</code>
+     */
+    public Builder setGroup(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      group_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *目标组id
+     * </pre>
+     *
+     * <code>string group = 8;</code>
+     */
+    public Builder clearGroup() {
+      
+      group_ = getDefaultInstance().getGroup();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *目标组id
+     * </pre>
+     *
+     * <code>string group = 8;</code>
+     */
+    public Builder setGroupBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      group_ = value;
       onChanged();
       return this;
     }

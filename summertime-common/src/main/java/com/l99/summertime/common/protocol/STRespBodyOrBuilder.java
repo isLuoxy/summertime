@@ -53,64 +53,10 @@ public interface STRespBodyOrBuilder extends
 
   /**
    * <pre>
-   *发送聊天消息的用户id
-   * </pre>
-   *
-   * <code>int32 fromId = 4;</code>
-   */
-  int getFromId();
-
-  /**
-   * <pre>
-   *发送聊天消息的用户nick
-   * </pre>
-   *
-   * <code>string fromNick = 5;</code>
-   */
-  java.lang.String getFromNick();
-  /**
-   * <pre>
-   *发送聊天消息的用户nick
-   * </pre>
-   *
-   * <code>string fromNick = 5;</code>
-   */
-  com.google.protobuf.ByteString
-      getFromNickBytes();
-
-  /**
-   * <pre>
-   *目标用户id
-   * </pre>
-   *
-   * <code>int32 toId = 6;</code>
-   */
-  int getToId();
-
-  /**
-   * <pre>
-   *目标用户nick
-   * </pre>
-   *
-   * <code>string toNick = 7;</code>
-   */
-  java.lang.String getToNick();
-  /**
-   * <pre>
-   *目标用户nick
-   * </pre>
-   *
-   * <code>string toNick = 7;</code>
-   */
-  com.google.protobuf.ByteString
-      getToNickBytes();
-
-  /**
-   * <pre>
    *目标组id
    * </pre>
    *
-   * <code>string group = 8;</code>
+   * <code>string group = 4;</code>
    */
   java.lang.String getGroup();
   /**
@@ -118,8 +64,35 @@ public interface STRespBodyOrBuilder extends
    *目标组id
    * </pre>
    *
-   * <code>string group = 8;</code>
+   * <code>string group = 4;</code>
    */
   com.google.protobuf.ByteString
       getGroupBytes();
+
+  /**
+   * <pre>
+   *发送人id，
+   * </pre>
+   *
+   * <code>int32 fromId = 5;</code>
+   */
+  int getFromId();
+
+  /**
+   * <pre>
+   *发送人nick
+   * </pre>
+   *
+   * <code>string fromNick = 6;</code>
+   */
+  java.lang.String getFromNick();
+  /**
+   * <pre>
+   *发送人nick
+   * </pre>
+   *
+   * <code>string fromNick = 6;</code>
+   */
+  com.google.protobuf.ByteString
+      getFromNickBytes();
 }

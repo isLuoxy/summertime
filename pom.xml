@@ -7,6 +7,9 @@
         <module>summertime-server</module>
         <module>summertime-client</module>
         <module>summertime-common</module>
+        <module>summertime-redis</module>
+        <module>summertime-route</module>
+        <module>summertime-zookeeper</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -23,6 +26,9 @@
     <properties>
         <java.version>1.8</java.version>
         <netty.version>4.1.37.Final</netty.version>
+        <curator-recipes.version>2.12.0</curator-recipes.version>
+        <curator-framework.version>2.12.0</curator-framework.version>
+        <zookeeper.version>3.4.8</zookeeper.version>
     </properties>
 
     <dependencies>
@@ -39,10 +45,37 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>${zookeeper.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${curator-recipes.version}</version>
+            <exclusions>
+
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${curator-framework.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

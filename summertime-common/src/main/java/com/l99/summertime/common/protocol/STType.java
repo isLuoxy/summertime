@@ -18,25 +18,33 @@ public enum STType
    *未知
    * </pre>
    *
-   * <code>CHAT_TYPE_UNKNOW = 0;</code>
+   * <code>CHAT_TYPE_UNKNOWN = 0;</code>
    */
-  CHAT_TYPE_UNKNOW(0),
+  CHAT_TYPE_UNKNOWN(0),
+  /**
+   * <pre>
+   *登陆
+   * </pre>
+   *
+   * <code>CHAT_TYPE_LOGIN = 1;</code>
+   */
+  CHAT_TYPE_LOGIN(1),
   /**
    * <pre>
    *公聊
    * </pre>
    *
-   * <code>CHAT_TYPE_PUBLIC = 1;</code>
+   * <code>CHAT_TYPE_PUBLIC = 2;</code>
    */
-  CHAT_TYPE_PUBLIC(1),
+  CHAT_TYPE_PUBLIC(2),
   /**
    * <pre>
    *私聊
    * </pre>
    *
-   * <code>CHAT_TYPE_PRIVATE = 2;</code>
+   * <code>CHAT_TYPE_PRIVATE = 3;</code>
    */
-  CHAT_TYPE_PRIVATE(2),
+  CHAT_TYPE_PRIVATE(3),
   UNRECOGNIZED(-1),
   ;
 
@@ -45,25 +53,33 @@ public enum STType
    *未知
    * </pre>
    *
-   * <code>CHAT_TYPE_UNKNOW = 0;</code>
+   * <code>CHAT_TYPE_UNKNOWN = 0;</code>
    */
-  public static final int CHAT_TYPE_UNKNOW_VALUE = 0;
+  public static final int CHAT_TYPE_UNKNOWN_VALUE = 0;
+  /**
+   * <pre>
+   *登陆
+   * </pre>
+   *
+   * <code>CHAT_TYPE_LOGIN = 1;</code>
+   */
+  public static final int CHAT_TYPE_LOGIN_VALUE = 1;
   /**
    * <pre>
    *公聊
    * </pre>
    *
-   * <code>CHAT_TYPE_PUBLIC = 1;</code>
+   * <code>CHAT_TYPE_PUBLIC = 2;</code>
    */
-  public static final int CHAT_TYPE_PUBLIC_VALUE = 1;
+  public static final int CHAT_TYPE_PUBLIC_VALUE = 2;
   /**
    * <pre>
    *私聊
    * </pre>
    *
-   * <code>CHAT_TYPE_PRIVATE = 2;</code>
+   * <code>CHAT_TYPE_PRIVATE = 3;</code>
    */
-  public static final int CHAT_TYPE_PRIVATE_VALUE = 2;
+  public static final int CHAT_TYPE_PRIVATE_VALUE = 3;
 
 
   public final int getNumber() {
@@ -84,9 +100,10 @@ public enum STType
 
   public static STType forNumber(int value) {
     switch (value) {
-      case 0: return CHAT_TYPE_UNKNOW;
-      case 1: return CHAT_TYPE_PUBLIC;
-      case 2: return CHAT_TYPE_PRIVATE;
+      case 0: return CHAT_TYPE_UNKNOWN;
+      case 1: return CHAT_TYPE_LOGIN;
+      case 2: return CHAT_TYPE_PUBLIC;
+      case 3: return CHAT_TYPE_PRIVATE;
       default: return null;
     }
   }

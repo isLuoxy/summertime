@@ -1,12 +1,14 @@
-package com.l99.summertime.init;
+package com.l99.summertime.client.init;
 
 import com.l99.summertime.common.protocol.STRespBody;
-import io.netty.channel.Channel;
+import com.l99.summertime.client.handler.STClientMsgHander;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+
 
 
 /**
@@ -15,12 +17,15 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
  * @createDate 2019/7/29
  *
  */
-public class STClientChannelInitializer extends ChannelInitializer<Channel> {
+public class STClientChannelInitializer extends ChannelInitializer<SocketChannel> {
+
+
     @Override
-    protected void initChannel(Channel channel) throws Exception {
+    protected void initChannel(SocketChannel channel) throws Exception {
         channel.pipeline().addLast(new ProtobufVarint32FrameDecoder())
                 .addLast(new ProtobufDecoder(STRespBody.getDefaultInstance()))
                 .addLast(new ProtobufVarint32LengthFieldPrepender())
-                .addLast(new ProtobufEncoder());
+                .addLast(new ProtobufEncoder())
+                .addLast(new STClientMsgHander());
     }
 }

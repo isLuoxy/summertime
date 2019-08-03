@@ -1,39 +1,40 @@
 syntax = "proto3";
 package com.l99.summertime.common.protocol;
 
-option java_package = "com.l99.summertime.common.protocol";  //设置java对应的package
+option java_package = "com.l99.summertime.common.protocol"; //设置java对应的package
 option java_multiple_files = true; //建议设置为true，这样会每个对象放在一个文件中，否则所有对象都在一个java文件中
 
 /**
  * 聊天类型
  */
 enum STType {
-	CHAT_TYPE_UNKNOW = 0;//未知
-	CHAT_TYPE_PUBLIC = 1;//公聊
-	CHAT_TYPE_PRIVATE = 2;//私聊
+    CHAT_TYPE_UNKNOWN = 0; //未知
+    CHAT_TYPE_LOGIN = 1; //登陆
+    CHAT_TYPE_PUBLIC = 2; //公聊
+    CHAT_TYPE_PRIVATE = 3; //私聊
 }
 /**
  * 聊天请求
  */
 message STReqBody {
-	int64 time = 1;//消息发送时间
-	STType type = 2; //聊天类型
-	string text = 3; //聊天内容
-	string group = 4; //目标组id
-	int32 toId = 5; //目标用户id，
-	string toNick = 6; //目标用户nick
+    int64 time = 1; //消息发送时间
+    STType type = 2; //聊天类型
+    string text = 3; //聊天内容
+    int32 fromId = 4; //发送聊天消息的用户id
+    string fromNick = 5; //发送聊天消息的用户nick
+    int32 toId = 6; //目标用户id
+    string toNick = 7; //目标用户nick
+    string group = 8; //目标组id
 }
 
 /**
  * 聊天响应
  */
 message STRespBody {
-	int64 time = 1;//消息发送时间
-	STType type = 2; //聊天类型
-	string text = 3; //聊天内容
-	int32 fromId = 4; //发送聊天消息的用户id
-	string fromNick = 5; //发送聊天消息的用户nick
-	int32 toId = 6; //目标用户id
-	string toNick = 7; //目标用户nick
-	string group = 8; //目标组id
+    int64 time = 1; //消息发送时间
+    STType type = 2; //聊天类型
+    string text = 3; //聊天内容
+    string group = 4; //目标组id
+    int32 fromId = 5; //发送人id，
+    string fromNick = 6; //发送人nick
 }

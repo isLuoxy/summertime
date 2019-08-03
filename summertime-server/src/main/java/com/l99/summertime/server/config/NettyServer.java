@@ -1,16 +1,17 @@
 package com.l99.summertime.server.config;
 
-import com.l99.summertime.server.init.STChannelInitializer;
+import com.l99.summertime.server.init.STServerChannelInitializer;
+import com.l99.summertime.zookeeper.client.ZkClient;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Date;
+import java.net.InetAddress;
 
 /**
  *
@@ -22,12 +23,25 @@ import java.util.Date;
 @Component
 public class NettyServer {
 
-    @Value("${st.server.port}")
-    /** 服务器端口号 */
-    private int nettyPort;
+    @Autowired
+    ZkClient zkClient;
 
-    @PostConstruct
-    public void init() {
+    @Value("${st.server.port}")
+    /** 服务器监听端口号 */
+    public int nettyPort;
+
+    @Value("${st.server.zookeeper.path}")
+    /** 服务注册的地址 */
+    public String rootPath;
+
+    @Autowired
+    STServerChannelInitializer stServerChannelInitializer;
+
+    /**
+     * 初始化服务端，绑定端口
+     * @throws InterruptedException
+     */
+    public void init() throws Exception {
         NioEventLoopGroup boosGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
@@ -37,17 +51,21 @@ public class NettyServer {
                 .channel(NioServerSocketChannel.class)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childOption(ChannelOption.TCP_NODELAY, true)
-                .childHandler(new STChannelInitializer());
+                .childHandler(stServerChannelInitializer);
 
-        bind(serverBootstrap, nettyPort);
+        bind(serverBootstrap);
     }
 
-    private void bind(ServerBootstrap bootStrap, int port) {
-        bootStrap.bind(port).addListener(future -> {
+    private void bind(ServerBootstrap bootStrap) throws Exception {
+        bootStrap.bind(nettyPort).addListener(future -> {
             if (future.isSuccess()) {
-                log.info("｛｝：服务器绑定端口[｛｝ ]成功", new Date(), port);
-            } else {
-                log.info("服务器绑定端口失败");
+                log.info("服务端初始化成功,端口号:{}", nettyPort);
+
+                // 注册到服务中心
+                String host = InetAddress.getLocalHost().getHostAddress();
+                String address = host + ":" + nettyPort;
+                zkClient.register(rootPath + address);
+                log.info("服务器注册成功，地址:{}", address);
             }
         });
     }
@@ -55,5 +73,6 @@ public class NettyServer {
     /**
      * 用于服务器转发信息给客户端
      */
-    public void sendMessage(){}
+    public void sendMessage() {
+    }
 }

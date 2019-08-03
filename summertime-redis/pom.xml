@@ -9,19 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>summertime-server</artifactId>
+    <artifactId>summertime-redis</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.l99</groupId>
-            <artifactId>summertime-common</artifactId>
-            <version>0.0.1</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.l99</groupId>
-            <artifactId>summertime-zookeeper</artifactId>
-            <version>0.0.1</version>
-        </dependency>
     </dependencies>
 </project>

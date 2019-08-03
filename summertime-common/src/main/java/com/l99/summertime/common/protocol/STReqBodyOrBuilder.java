@@ -53,28 +53,37 @@ public interface STReqBodyOrBuilder extends
 
   /**
    * <pre>
-   *目标组id
+   *发送聊天消息的用户id
    * </pre>
    *
-   * <code>string group = 4;</code>
+   * <code>int32 fromId = 4;</code>
    */
-  java.lang.String getGroup();
-  /**
-   * <pre>
-   *目标组id
-   * </pre>
-   *
-   * <code>string group = 4;</code>
-   */
-  com.google.protobuf.ByteString
-      getGroupBytes();
+  int getFromId();
 
   /**
    * <pre>
-   *目标用户id，
+   *发送聊天消息的用户nick
    * </pre>
    *
-   * <code>int32 toId = 5;</code>
+   * <code>string fromNick = 5;</code>
+   */
+  java.lang.String getFromNick();
+  /**
+   * <pre>
+   *发送聊天消息的用户nick
+   * </pre>
+   *
+   * <code>string fromNick = 5;</code>
+   */
+  com.google.protobuf.ByteString
+      getFromNickBytes();
+
+  /**
+   * <pre>
+   *目标用户id
+   * </pre>
+   *
+   * <code>int32 toId = 6;</code>
    */
   int getToId();
 
@@ -83,7 +92,7 @@ public interface STReqBodyOrBuilder extends
    *目标用户nick
    * </pre>
    *
-   * <code>string toNick = 6;</code>
+   * <code>string toNick = 7;</code>
    */
   java.lang.String getToNick();
   /**
@@ -91,8 +100,26 @@ public interface STReqBodyOrBuilder extends
    *目标用户nick
    * </pre>
    *
-   * <code>string toNick = 6;</code>
+   * <code>string toNick = 7;</code>
    */
   com.google.protobuf.ByteString
       getToNickBytes();
+
+  /**
+   * <pre>
+   *目标组id
+   * </pre>
+   *
+   * <code>string group = 8;</code>
+   */
+  java.lang.String getGroup();
+  /**
+   * <pre>
+   *目标组id
+   * </pre>
+   *
+   * <code>string group = 8;</code>
+   */
+  com.google.protobuf.ByteString
+      getGroupBytes();
 }
