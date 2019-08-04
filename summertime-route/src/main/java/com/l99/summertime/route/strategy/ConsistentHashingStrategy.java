@@ -13,7 +13,6 @@ import java.util.TreeMap;
  */
 public class ConsistentHashingStrategy extends AbstractAllocationStrategy {
 
-
     /**
      *  存放服务器的排序集合
      */

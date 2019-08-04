@@ -5,6 +5,8 @@ import com.l99.summertime.client.init.STClientChannelInitializer;
 import com.l99.summertime.common.protocol.STReqBody;
 import com.l99.summertime.common.protocol.STRespBody;
 import com.l99.summertime.common.protocol.STType;
+import com.l99.summertime.service.ZKService;
+import com.l99.summertime.vo.Node;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,6 +15,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,17 +34,14 @@ import java.util.Scanner;
 public class NettyClient {
 
 
-    @Value("${st.server.host}")
-    public String host;
-
-    @Value("${st.server.port}")
-    public int port;
+    @Reference(version = "0.0.1")
+    ZKService zkService;
 
     /**
      * 连接服务端配置
      * @throws InterruptedException
      */
-    public void connect() throws InterruptedException {
+    public void connect(Node node) throws InterruptedException {
         EventLoopGroup group = new NioEventLoopGroup();
 
         Bootstrap b = new Bootstrap();
@@ -50,7 +50,8 @@ public class NettyClient {
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new STClientChannelInitializer());
 
-        b.connect(host, port).addListener(future -> {
+        Node server = getServer(node);
+        b.connect(server.getHost(), server.getPort()).addListener(future -> {
             if (future.isSuccess()) {
                 log.info("客户端连接服务器成功");
                 send(((ChannelFuture) future).channel());
@@ -70,11 +71,20 @@ public class NettyClient {
                         .setFromId(Integer.valueOf(line))
                         .setToId(1)
                         .setTypeValue(1)
-                        .setType(STType.CHAT_TYPE_LOGIN)
+                        .setType(STType.CHAT_TYPE_UNKNOWN)
                         .build();
                 System.out.println(stReqBody);
                 channel.writeAndFlush(stReqBody);
             }
         }).start();
+    }
+
+    /**
+     * 获取服务列表
+     * @param node
+     * @return
+     */
+    private Node getServer(Node node) {
+        return zkService.consume(node);
     }
 }

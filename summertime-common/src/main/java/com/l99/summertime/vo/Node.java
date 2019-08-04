@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 服务器对象
  * @author L99
@@ -13,7 +15,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Node {
+public class Node implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * ip

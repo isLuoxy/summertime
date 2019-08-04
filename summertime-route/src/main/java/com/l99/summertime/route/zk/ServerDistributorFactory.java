@@ -18,17 +18,24 @@ public class ServerDistributorFactory {
         return new ServerDistributorFactory.Builder();
     }
 
-    @Data
+
     public static class Builder {
         private AllocationStrategy allocationStrategy;
 
         private Builder() {
-            // 默认情况下为一致性哈希策略
-            this.allocationStrategy = new ConsistentHashingStrategy();
+            // 默认情况下采用一致性哈希策略
+            // this.allocationStrategy = new ConsistentHashingStrategy();
+        }
+
+
+        public ServerDistributorFactory.Builder allocationStrategy(AllocationStrategy allocationStrategy) {
+            this.allocationStrategy = allocationStrategy;
+            return this;
         }
 
         public ServerDistributor build() {
-            ServerDistributor serverDistributor = new ServerDistributor(allocationStrategy);
+            ServerDistributor serverDistributor = new ServerDistributor();
+            serverDistributor.setServerAllocationStrategy(allocationStrategy);
             return serverDistributor;
         }
     }

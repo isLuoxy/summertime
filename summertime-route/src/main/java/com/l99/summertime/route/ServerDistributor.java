@@ -15,8 +15,8 @@ public class ServerDistributor {
 
     private AllocationStrategy serverAllocationStrategy;
 
-    public ServerDistributor(AllocationStrategy serverAllocationStrategy) {
-        this.serverAllocationStrategy = serverAllocationStrategy;
+    public ServerDistributor() {
+
     }
 
     /**

@@ -1,12 +1,14 @@
 package com.l99.summertime.server.config;
 
 import com.l99.summertime.server.init.STServerChannelInitializer;
+import com.l99.summertime.service.ZKService;
 import com.l99.summertime.zookeeper.client.ZkClient;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,8 +25,8 @@ import java.net.InetAddress;
 @Component
 public class NettyServer {
 
-    @Autowired
-    ZkClient zkClient;
+    @Reference(version = "0.0.1")
+    ZKService zkService;
 
     @Value("${st.server.port}")
     /** 服务器监听端口号 */
@@ -64,8 +66,7 @@ public class NettyServer {
                 // 注册到服务中心
                 String host = InetAddress.getLocalHost().getHostAddress();
                 String address = host + ":" + nettyPort;
-                zkClient.register(rootPath + address);
-                log.info("服务器注册成功，地址:{}", address);
+                zkService.register(rootPath + address);
             }
         });
     }

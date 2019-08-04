@@ -1,6 +1,7 @@
 package com.l99.summertime.server;
 
 import com.l99.summertime.server.config.NettyServer;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,14 +14,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+@EnableDubbo
 public class STServerApplication implements CommandLineRunner {
 
 
     @Autowired
     NettyServer nettyServer;
 
-    public static void main(String[] args){
-        SpringApplication.run(STServerApplication.class,args);
+    public static void main(String[] args) {
+        SpringApplication.run(STServerApplication.class, args);
     }
 
     @Override

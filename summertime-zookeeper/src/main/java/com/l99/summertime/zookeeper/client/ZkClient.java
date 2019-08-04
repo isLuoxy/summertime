@@ -68,7 +68,7 @@ public class ZkClient {
      */
     public void register(String path) {
         try {
-            client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(path);
+            client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(path);
         } catch (Exception e) {
             e.printStackTrace();
             log.info("服务器注册出错");
