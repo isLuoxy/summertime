@@ -1,20 +1,12 @@
-st:
-  server:
-    port: 8000
-    zookeeper:
-      path: /st/server/
-
+# 启动端口
+server:
+  port: 8090
 
 #    dubbo 配置
 dubbo:
   application:
-    name: st-server
+    name: st-client
   protocol:
     name: dubbo
-    port: 10000
   registry:
     address: zookeeper://39.105.196.17:2181
-    
-#
-  
-

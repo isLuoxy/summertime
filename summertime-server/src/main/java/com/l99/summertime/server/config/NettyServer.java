@@ -2,7 +2,6 @@ package com.l99.summertime.server.config;
 
 import com.l99.summertime.server.init.STServerChannelInitializer;
 import com.l99.summertime.service.ZKService;
-import com.l99.summertime.zookeeper.client.ZkClient;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 
 /**
@@ -23,7 +23,7 @@ import java.net.InetAddress;
  */
 @Slf4j
 @Component
-public class NettyServer {
+public class NettyServer implements Serializable {
 
     @Reference(version = "0.0.1")
     ZKService zkService;

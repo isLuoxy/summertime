@@ -2,8 +2,6 @@ package com.l99.summertime.route.zk;
 
 import com.l99.summertime.route.ServerDistributor;
 import com.l99.summertime.route.strategy.AllocationStrategy;
-import com.l99.summertime.route.strategy.ConsistentHashingStrategy;
-import lombok.Data;
 
 /**
  * 通过 zk 获取服务器列表，并根据一定的策略分配服务器

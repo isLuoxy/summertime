@@ -1,0 +1,22 @@
+#    dubbo 配置
+dubbo:
+  application:
+    name: st-route
+  registry:
+    address: zookeeper://39.105.196.17:2181
+  scan:
+    base-packages: com.l99.summertime.route.service.impl
+# zk 配置
+zookeeper:
+  server: 39.105.196.17:2181
+  sessionTimeoutMs: 6000
+  connectionTimeoutMs: 6000
+  maxRetries: 3
+  baseSleepTimeMs: 1000
+  
+# rocketmq 配置
+rocketmq:
+  producer:
+    groupName: ${spring.application.name}
+    namesrvAddr: localhost:9876
+    default: false
