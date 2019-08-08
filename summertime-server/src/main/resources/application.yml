@@ -16,5 +16,8 @@ dubbo:
     address: zookeeper://39.105.196.17:2181
     
 #
-  
+rocketmq:
+  consumer:
+    groupName: st
+    namesrvAddr: localhost:9876
 

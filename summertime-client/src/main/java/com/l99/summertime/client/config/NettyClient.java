@@ -5,8 +5,10 @@ import com.l99.summertime.client.init.STClientChannelInitializer;
 import com.l99.summertime.common.protocol.STReqBody;
 import com.l99.summertime.common.protocol.STRespBody;
 import com.l99.summertime.common.protocol.STType;
+import com.l99.summertime.service.ClientMsgService;
 import com.l99.summertime.service.ZKService;
 import com.l99.summertime.vo.Node;
+import com.l99.summertime.vo.RequestVo;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
+import java.util.Date;
 import java.util.Scanner;
 
 
@@ -36,6 +39,9 @@ public class NettyClient {
 
     @Reference(version = "0.0.1")
     ZKService zkService;
+
+    @Reference(version = "0.0.1")
+    ClientMsgService clientMsgService;
 
     /**
      * 连接服务端配置
@@ -67,14 +73,32 @@ public class NettyClient {
                 Scanner sc = new Scanner(System.in);
                 String line = sc.nextLine();
 
-                STReqBody stReqBody = STReqBody.newBuilder()
-                        .setFromId(Integer.valueOf(line))
-                        .setToId(1)
-                        .setTypeValue(1)
-                        .setType(STType.CHAT_TYPE_UNKNOWN)
-                        .build();
-                System.out.println(stReqBody);
-                channel.writeAndFlush(stReqBody);
+               if (line.equals("login")) {
+                    STReqBody stReqBody = STReqBody.newBuilder()
+                            .setFromId(Integer.valueOf(1))
+                            .setToId(1)
+                            .setTypeValue(1)
+                            .setText(line)
+                            .setType(STType.CHAT_TYPE_LOGIN)
+                            .build();
+                    System.out.println("login" + stReqBody);
+                    channel.writeAndFlush(stReqBody);
+                    continue;
+                }
+
+                System.out.println();
+                RequestVo requestVo = new RequestVo();
+                requestVo.setFromId(1);
+                requestVo.setToId(1);
+                requestVo.setP2p(true);
+                requestVo.setMsg(new Date() + "");
+
+                try {
+                    clientMsgService.sendMsg(requestVo);
+                } catch (Exception e) {
+                    System.out.println(e);
+                    log.info("客户端发送信息失败");
+                }
             }
         }).start();
     }

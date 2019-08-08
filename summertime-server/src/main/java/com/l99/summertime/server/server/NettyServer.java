@@ -1,6 +1,9 @@
-package com.l99.summertime.server.config;
+package com.l99.summertime.server.server;
 
+import com.l99.summertime.server.config.AddressConfig;
+import com.l99.summertime.server.controller.RMConsumer;
 import com.l99.summertime.server.init.STServerChannelInitializer;
+import com.l99.summertime.service.ClientMsgService;
 import com.l99.summertime.service.ZKService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
@@ -13,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.net.InetAddress;
 
 /**
  *
@@ -25,19 +27,22 @@ import java.net.InetAddress;
 @Component
 public class NettyServer implements Serializable {
 
-    @Reference(version = "0.0.1")
-    ZKService zkService;
-
-    @Value("${st.server.port}")
-    /** 服务器监听端口号 */
-    public int nettyPort;
 
     @Value("${st.server.zookeeper.path}")
     /** 服务注册的地址 */
     public String rootPath;
 
+    @Reference(version = "0.0.1")
+    ZKService zkService;
+
+    @Autowired
+    AddressConfig addressConfig;
+
     @Autowired
     STServerChannelInitializer stServerChannelInitializer;
+
+    @Autowired
+    RMConsumer rmConsumer;
 
     /**
      * 初始化服务端，绑定端口
@@ -59,14 +64,18 @@ public class NettyServer implements Serializable {
     }
 
     private void bind(ServerBootstrap bootStrap) throws Exception {
+        int nettyPort = addressConfig.nettyPort;
         bootStrap.bind(nettyPort).addListener(future -> {
             if (future.isSuccess()) {
                 log.info("服务端初始化成功,端口号:{}", nettyPort);
 
                 // 注册到服务中心
-                String host = InetAddress.getLocalHost().getHostAddress();
-                String address = host + ":" + nettyPort;
+                String address = addressConfig.getAddress();
                 zkService.register(rootPath + address);
+
+                // 开始消费信息
+                log.info("开启消费消息", address);
+                rmConsumer.listener("Message", address);
             }
         });
     }
@@ -76,4 +85,5 @@ public class NettyServer implements Serializable {
      */
     public void sendMessage() {
     }
+
 }

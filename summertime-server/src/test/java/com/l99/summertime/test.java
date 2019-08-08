@@ -3,6 +3,8 @@ package com.l99.summertime;
 import com.l99.summertime.common.protocol.STReqBody;
 import com.l99.summertime.common.protocol.STType;
 import com.l99.summertime.server.STServerApplication;
+import com.l99.summertime.server.config.RMConsumerConfig;
+import com.l99.summertime.server.controller.RMConsumer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,22 @@ public class test {
     @Autowired
     RedisTemplate redisTemplate;
 
+
+    @Autowired
+    RMConsumer rmConsumer;
+
     @Test
     public void load() {
         STReqBody stReqBody = STReqBody.newBuilder().setFromId(10).setToId(20).setType(STType.CHAT_TYPE_UNKNOWN).build();
-        redisTemplate.opsForValue().set(123,stReqBody);
+        redisTemplate.opsForValue().set(123, stReqBody);
+    }
+
+    @Test
+    public void consumeTest() {
+        try {
+            rmConsumer.listener("Message", "192.168.137.1:8000");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

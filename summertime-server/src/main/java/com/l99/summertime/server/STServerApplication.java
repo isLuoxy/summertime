@@ -1,6 +1,6 @@
 package com.l99.summertime.server;
 
-import com.l99.summertime.server.config.NettyServer;
+import com.l99.summertime.server.server.NettyServer;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
