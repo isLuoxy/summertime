@@ -1,9 +1,8 @@
 package com.l99.summertime.server.server;
 
-import com.l99.summertime.server.config.AddressConfig;
+import com.l99.summertime.server.util.AddressUtil;
 import com.l99.summertime.server.controller.RMConsumer;
 import com.l99.summertime.server.init.STServerChannelInitializer;
-import com.l99.summertime.service.ClientMsgService;
 import com.l99.summertime.service.ZKService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
@@ -36,7 +35,7 @@ public class NettyServer implements Serializable {
     ZKService zkService;
 
     @Autowired
-    AddressConfig addressConfig;
+    AddressUtil addressUtil;
 
     @Autowired
     STServerChannelInitializer stServerChannelInitializer;
@@ -64,13 +63,13 @@ public class NettyServer implements Serializable {
     }
 
     private void bind(ServerBootstrap bootStrap) throws Exception {
-        int nettyPort = addressConfig.nettyPort;
+        int nettyPort = addressUtil.nettyPort;
         bootStrap.bind(nettyPort).addListener(future -> {
             if (future.isSuccess()) {
                 log.info("服务端初始化成功,端口号:{}", nettyPort);
 
                 // 注册到服务中心
-                String address = addressConfig.getAddress();
+                String address = addressUtil.getAddress();
                 zkService.register(rootPath + address);
 
                 // 开始消费信息

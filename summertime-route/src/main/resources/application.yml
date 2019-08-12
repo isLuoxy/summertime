@@ -20,3 +20,16 @@ rocketmq:
     groupName: st
     namesrvAddr: localhost:9876
     default: false
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/st?useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password:
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

@@ -2,6 +2,7 @@ package com.l99.summertime.server;
 
 import com.l99.summertime.server.server.NettyServer;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @createDate 2019/7/28
  *
  */
+@MapperScan("com.l99.summertime.dao")
 @SpringBootApplication
 @EnableDubbo
 public class STServerApplication implements CommandLineRunner {

@@ -17,7 +17,11 @@
             <artifactId>summertime-common</artifactId>
             <version>0.0.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.l99</groupId>
+            <artifactId>summertime-dao</artifactId>
+            <version>0.0.1</version>
+        </dependency>
         <dependency>
             <groupId>com.l99</groupId>
             <artifactId>summertime-zookeeper</artifactId>

@@ -34,6 +34,7 @@ public abstract class AbstractAllocationStrategy implements AllocationStrategy {
                 node.setPort(Integer.valueOf(temp[1]));
                 servers.add(node);
             });
+            servers.stream().forEach(System.out::println);
         } catch (Exception e) {
             log.info("获取服务出错");
             e.printStackTrace();

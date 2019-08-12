@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.net.InetAddress;
+import java.util.Random;
 
 
 /**
@@ -40,8 +41,6 @@ public class STClientApplication implements CommandLineRunner {
         Node node = new Node();
         node.setPort(8002);
         node.setHost(InetAddress.getLocalHost().getHostAddress());
-        nettyClient.connect(node);
+        nettyClient.connect(String.valueOf(new Random().nextInt()), node);
     }
-
-
 }

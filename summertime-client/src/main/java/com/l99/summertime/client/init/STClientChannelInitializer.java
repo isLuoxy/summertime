@@ -1,14 +1,14 @@
 package com.l99.summertime.client.init;
 
+import com.l99.summertime.client.handler.STClientOfflineMsgHandler;
 import com.l99.summertime.common.protocol.STRespBody;
-import com.l99.summertime.client.handler.STClientMsgHander;
+import com.l99.summertime.client.handler.STClientMsgHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-
 
 
 /**
@@ -26,6 +26,7 @@ public class STClientChannelInitializer extends ChannelInitializer<SocketChannel
                 .addLast(new ProtobufDecoder(STRespBody.getDefaultInstance()))
                 .addLast(new ProtobufVarint32LengthFieldPrepender())
                 .addLast(new ProtobufEncoder())
-                .addLast(new STClientMsgHander());
+                .addLast(new STClientMsgHandler())
+                .addLast(new STClientOfflineMsgHandler());
     }
 }

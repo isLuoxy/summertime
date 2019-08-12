@@ -27,6 +27,7 @@ public class STServerChannelInitializer extends ChannelInitializer<NioSocketChan
     @Autowired
     STServerMsgHander stServerMsgHander;
 
+
     @Override
     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
         nioSocketChannel.pipeline()

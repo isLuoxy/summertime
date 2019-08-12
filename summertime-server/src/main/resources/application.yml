@@ -18,6 +18,19 @@ dubbo:
 #
 rocketmq:
   consumer:
-    groupName: st
+    groupName: st-server-1
     namesrvAddr: localhost:9876
 
+#
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/st?useSSL=false
+    username: root
+    password:
+    type: com.alibaba.druid.pool.DruidDataSource
+    
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
