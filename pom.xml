@@ -12,7 +12,6 @@
         <module>summertime-zookeeper</module>
         <module>summertime-dao</module>
         <module>summertime-dao</module>
-        <module>service-test</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

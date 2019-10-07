@@ -12,7 +12,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.Attribute;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +54,49 @@ public class STServerMsgHander extends SimpleChannelInboundHandler<STReqBody> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, STReqBody stReqBody) throws Exception {
-        // 如果是第一次登陆，则记录当前客户端和通道到 redis，使用 JSON 序列化
-        redisTemplate.opsForValue().set(String.valueOf(stReqBody.getFromId()), addressUtil.getAddress());
-        // 存储对应的 channel
-        SocketChannelHolder.saveChannel(stReqBody.getFromId(), (Channel) channelHandlerContext.channel());
-        log.info("用户{}: 登陆成功", stReqBody.getFromId());
-        STRespBody stRespBody = STRespBody.newBuilder().setText("登陆成功").setFromId(stReqBody.getFromId()).build();
-        channelHandlerContext.channel().writeAndFlush(stRespBody);
-        // 将客户端id保存，用于离线时使用
-        AttributeKey<String> name = AttributeKey.valueOf("name");
-        channelHandlerContext.channel().attr(name).set(String.valueOf(stReqBody.getFromId()));
-        sendOfflineMsg(channelHandlerContext, stReqBody);
+        if (stReqBody.getType() == STType.CHAT_TYPE_LOGIN) {
+            // 如果是第一次登陆，则记录当前客户端和通道到 redis，使用 JSON 序列化
+            redisTemplate.opsForValue().set(String.valueOf(stReqBody.getFromId()), addressUtil.getAddress());
+            // 存储对应的 channel
+            SocketChannelHolder.saveChannel(stReqBody.getFromId(), (Channel) channelHandlerContext.channel());
+            log.info("用户{}: 登陆成功", stReqBody.getFromId());
+            STRespBody stRespBody = STRespBody.newBuilder().setText("登陆成功").setFromId(stReqBody.getFromId()).build();
+            channelHandlerContext.channel().writeAndFlush(stRespBody);
+            // 将客户端id保存，用于离线时使用
+            AttributeKey<String> name = AttributeKey.valueOf("name");
+            channelHandlerContext.channel().attr(name).set(String.valueOf(stReqBody.getFromId()));
+            sendOfflineMsg(channelHandlerContext, stReqBody);
+        }
+
+        if (stReqBody.getType() == STType.CHAT_TYPE_UNKNOWN) {
+            // 心跳包
+
+        }
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
+            if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
+                // 如果服务端特定时间内没有发送信息，则进行心跳探测客户端是否存活
+                String clientId = getClientId(ctx);
+                log.info("探测客户端[{}] 是否存活 ", clientId);
+                STRespBody stRespBody = STRespBody.newBuilder()
+                        .setType(STType.CHAT_TYPE_UNKNOWN)
+                        .setTypeValue(STType.CHAT_TYPE_UNKNOWN.getNumber())
+                        .setTime(System.currentTimeMillis())
+                        .build();
+                ctx.writeAndFlush(stRespBody).addListener(future -> {
+                    if (!future.isSuccess()) {
+                        log.error("与客户端[{}]断开连接，关闭通道", clientId);
+                        // 服务端容灾
+                    }
+                });
+            }
+        }
+        super.userEventTriggered(ctx, evt);
     }
 
     protected void sendOfflineMsg(ChannelHandlerContext channelHandlerContext, STReqBody stReqBody) {
@@ -100,12 +133,22 @@ public class STServerMsgHander extends SimpleChannelInboundHandler<STReqBody> {
         });
     }
 
+
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        AttributeKey<String> name = AttributeKey.valueOf("name");
-        String clientId = (String) ctx.channel().attr(name).get();
-        log.info("用户id{}",clientId);
+        String clientId = getClientId(ctx);
+        log.info("用户id{}", clientId);
         redisTemplate.delete(clientId);
         super.channelInactive(ctx);
+    }
+
+    /**
+     * 获取当前客户端id，存放在  AttributeMap 中
+     * @param ctx
+     * @return
+     */
+    private String getClientId(ChannelHandlerContext ctx) {
+        AttributeKey<String> name = AttributeKey.valueOf("name");
+        return ctx.channel().attr(name).get();
     }
 }

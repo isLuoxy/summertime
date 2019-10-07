@@ -18,7 +18,7 @@ zookeeper:
 rocketmq:
   producer:
     groupName: st
-    namesrvAddr: localhost:9876
+    namesrvAddr: 39.105.196.17:9876
     default: false
 
 spring:

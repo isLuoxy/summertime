@@ -16,7 +16,7 @@ import java.util.List;
  *
  */
 @Slf4j
-public abstract class AbstractAllocationStrategy implements AllocationStrategy {
+public abstract class   AbstractAllocationStrategy implements AllocationStrategy {
 
 
     protected static List<Node> servers = new LinkedList<>();
