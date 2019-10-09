@@ -1,7 +1,8 @@
 package com.l99.summertime.server.init;
 
 import com.l99.summertime.common.protocol.STReqBody;
-import com.l99.summertime.server.handler.STServerMsgHander;
+import com.l99.summertime.server.handler.STServerHeartBeatHandler;
+import com.l99.summertime.server.handler.STServerMsgHandler;
 import io.netty.channel.ChannelInitializer;
 
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -25,18 +26,21 @@ public class STServerChannelInitializer extends ChannelInitializer<NioSocketChan
 
 
     @Autowired
-    STServerMsgHander stServerMsgHander;
+    STServerMsgHandler stServerMsgHandler;
 
+    @Autowired
+    STServerHeartBeatHandler stServerHeartBeatHandler;
 
     @Override
     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
         nioSocketChannel.pipeline()
-                .addLast(new IdleStateHandler(0,10,0))
+                .addLast(new IdleStateHandler(0, 10, 0))
                 .addLast(new ProtobufVarint32FrameDecoder())
                 .addLast(new ProtobufDecoder(STReqBody.getDefaultInstance()))
                 .addLast(new ProtobufVarint32LengthFieldPrepender())
                 .addLast(new ProtobufEncoder())
-                .addLast(stServerMsgHander);
+                .addLast(stServerMsgHandler)
+                .addLast(stServerHeartBeatHandler);
     }
 
 

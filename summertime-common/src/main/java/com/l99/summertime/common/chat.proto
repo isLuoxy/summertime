@@ -12,6 +12,8 @@ enum STType {
     CHAT_TYPE_LOGIN = 1; //登陆
     CHAT_TYPE_PUBLIC = 2; //公聊
     CHAT_TYPE_PRIVATE = 3; //私聊
+    CHAT_TYPE_HEARTBEAT = 4; //心跳
+    CHAT_TYPE_HEARTBEAT_RESPONSE = 5; // 心跳响应
 }
 /**
  * 聊天请求

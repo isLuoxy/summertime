@@ -19,7 +19,7 @@ dubbo:
 rocketmq:
   consumer:
     groupName: st-server-1
-    namesrvAddr: 39.105.196.17:9876
+    namesrvAddr: 127.0.0.1:9876
 
 #
 spring:

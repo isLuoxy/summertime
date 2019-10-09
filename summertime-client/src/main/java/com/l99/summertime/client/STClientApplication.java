@@ -29,9 +29,6 @@ public class STClientApplication implements CommandLineRunner {
     @Autowired
     NettyClient nettyClient;
 
-    @Reference(version = "0.0.1")
-    public ZKService zkService;
-
     public static void main(String[] args) {
         SpringApplication.run(STClientApplication.class, args);
     }

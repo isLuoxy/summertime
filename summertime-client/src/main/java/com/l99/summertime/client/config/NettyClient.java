@@ -1,20 +1,23 @@
 package com.l99.summertime.client.config;
 
 import com.l99.summertime.client.init.STClientChannelInitializer;
+import com.l99.summertime.client.service.NodeService;
 import com.l99.summertime.client.vo.LoginVo;
 import com.l99.summertime.common.protocol.STReqBody;
 import com.l99.summertime.common.protocol.STType;
 import com.l99.summertime.service.ClientMsgService;
-import com.l99.summertime.service.ZKService;
 import com.l99.summertime.vo.Node;
 import com.l99.summertime.vo.RequestVo;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
+import io.netty.util.AttributeMap;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -34,13 +37,14 @@ import java.util.Scanner;
 @Component
 public class NettyClient {
 
-
-    @Reference(version = "0.0.1")
-    ZKService zkService;
+    @Autowired
+    NodeService nodeService;
 
     @Reference(version = "0.0.1")
     ClientMsgService clientMsgService;
 
+    @Autowired
+    STClientChannelInitializer stClientChannelInitializer;
 
     /**
      * 连接服务端配置
@@ -53,13 +57,16 @@ public class NettyClient {
         b.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY, true)
-                .handler(new STClientChannelInitializer());
+                .handler(stClientChannelInitializer);
         LoginVo.userId = "2";
-        Node server = getServer(node);
+        Node server = nodeService.getServer(node);
         b.connect(server.getHost(), server.getPort()).addListener(future -> {
             if (future.isSuccess()) {
                 log.info("客户端连接服务器成功");
-                send(((ChannelFuture) future).channel());
+                Channel channel = ((ChannelFuture) future).channel();
+                AttributeKey<String> name = AttributeKey.valueOf("name");
+                channel.attr(name).set(String.valueOf(20));
+                send(channel);
             }
         });
     }
@@ -73,16 +80,6 @@ public class NettyClient {
                 String line = sc.nextLine();
 
                 String[] strings = line.split(" ");
-                if (line.contains("login")) {
-                    STReqBody stReqBody = STReqBody.newBuilder()
-                            .setFromId(Integer.valueOf(strings[1]))
-                            .setTypeValue(1)
-                            .setType(STType.CHAT_TYPE_LOGIN)
-                            .build();
-                    System.out.println("login" + stReqBody);
-                    channel.writeAndFlush(stReqBody);
-                    continue;
-                }
 
                 if (line.contains("create")) {
                     List<String> menmbers = new ArrayList<>();
@@ -124,11 +121,9 @@ public class NettyClient {
     }
 
     /**
-     * 获取服务列表
-     * @param node
-     * @return
+     * 重新连接
      */
-    private Node getServer(Node node) {
-        return zkService.consume(node);
+    public void reconnect() {
+
     }
 }
