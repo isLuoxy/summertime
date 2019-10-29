@@ -25,7 +25,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <netty.version>4.1.37.Final</netty.version>
+        <netty.version>4.1.42.Final</netty.version>
         <curator-recipes.version>4.1.0</curator-recipes.version>
         <curator-framework.version>4.1.0</curator-framework.version>
         <zookeeper.version>3.5.4-beta</zookeeper.version>
