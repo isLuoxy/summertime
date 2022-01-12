@@ -31,7 +31,7 @@
         <zookeeper.version>3.5.4-beta</zookeeper.version>
         <protobuf-java.version>3.8.0</protobuf-java.version>
         <dubbo-spring-boot-starter.version>2.7.1</dubbo-spring-boot-starter.version>
-        <dubbo.version>2.7.1</dubbo.version>
+        <dubbo.version>2.7.15</dubbo.version>
     </properties>
 
     <dependencyManagement>
